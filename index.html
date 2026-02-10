@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Shruti ❤️</title>
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+body {
+  background: radial-gradient(circle at top, #2b0a1f, #000);
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  color: #fff;
+  cursor: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ff7eb3;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: all 0.15s ease;
+  mix-blend-mode: difference;
+}
+
+.cursor-trail {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: #ff7eb3;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+}
+
+.cursor.hover {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 126, 179, 0.1);
+  border-color: #fff;
+}
+
+/* SPARKLES */
+.sparkle {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9997;
+  animation: sparkleFloat 1.5s ease-out forwards;
+}
+
+@keyframes sparkleFloat {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100px) scale(0);
+  }
+}
+
+canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+}
+
+.page {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  padding: 2rem;
+  text-align: center;
+}
+
+.page.active {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* INTRO SCENE */
+.title {
+  font-size: clamp(2rem, 8vw, 4rem);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #ff7eb3, #ff9a9e, #ffd1dc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s ease-in-out infinite;
+  text-shadow: 0 0 40px rgba(255, 126, 179, 0.5);
+  font-weight: 300;
+}
+
+@keyframes shimmer {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.3); }
+}
+
+.name {
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  color: #ff7eb3;
+  margin-top: 1.5rem;
+  animation: float 3s ease-in-out infinite;
+  text-shadow: 0 0 30px rgba(255, 126, 179, 0.6);
+  font-style: italic;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.tap {
+  margin-top: 3rem;
+  opacity: 0;
+  animation: fadeInPulse 2s ease-in-out 1s infinite;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 100;
+}
+
+@keyframes fadeInPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* CAROUSEL SCENE - 3D */
+.carousel {
+  width: 100%;
+  height: 500px;
+  position: relative;
+  perspective: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.track {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.track img {
+  position: absolute;
+  width: 300px;
+  height: 400px;
+  left: 0;
+  top: 0;
+  border-radius: 25px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.8),
+              0 0 40px rgba(255, 126, 179, 0.3);
+  transition: all 0.5s ease;
+  filter: brightness(0.7);
+  object-fit: cover;
+}
+
+.track img.active {
+  filter: brightness(1.1);
+  box-shadow: 0 50px 100px rgba(0,0,0,0.9),
+              0 0 60px rgba(255, 126, 179, 0.5);
+  z-index: 10;
+}
+
+/* GRATITUDE SCENE */
+.gratitude-scene {
+  background: radial-gradient(circle at center, #3d1430, #1a0a14);
+}
+
+.gratitude-container {
+  max-width: 900px;
+  width: 90%;
+}
+
+.gratitude-title {
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, #ff7eb3, #ff9a9e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.gratitude-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.gratitude-card {
+  background: linear-gradient(135deg, rgba(255,126,179,0.15), rgba(255,154,158,0.1));
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 126, 179, 0.3);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  opacity: 0;
+  transform: translateY(30px);
+  animation: cardFadeIn 0.6s ease forwards;
+}
+
+.gratitude-card:nth-child(1) { animation-delay: 0.1s; }
+.gratitude-card:nth-child(2) { animation-delay: 0.2s; }
+.gratitude-card:nth-child(3) { animation-delay: 0.3s; }
+.gratitude-card:nth-child(4) { animation-delay: 0.4s; }
+.gratitude-card:nth-child(5) { animation-delay: 0.5s; }
+.gratitude-card:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes cardFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gratitude-card .icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.gratitude-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #ff9a9e;
+}
+
+.gratitude-card p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.9);
+}
+
+/* LETTER SCENE */
+.balloons {
+  position: relative;
+}
+
+.letter {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,250,250,0.98));
+  color: #2b0a1f;
+  padding: 3rem 2.5rem;
+  border-radius: 30px;
+  max-width: 90%;
+  max-height: 70vh;
+  overflow-y: auto;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5),
+              inset 0 0 0 1px rgba(255, 126, 179, 0.2);
+  animation: letterEntry 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+@keyframes letterEntry {
+  0% {
+    transform: rotateX(-90deg) translateY(-100px);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0) translateY(0);
+    opacity: 1;
+  }
+}
+
+.letter h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #ff4b7d;
+  font-style: italic;
+}
+
+.letter p {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  letter-spacing: 0.3px;
+}
+
+.letter::before {
+  content: '❝';
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  font-size: 4rem;
+  color: rgba(255, 75, 125, 0.15);
+  font-family: Georgia, serif;
+}
+
+/* FLOATING BALLOONS */
+.balloon {
+  position: absolute;
+  font-size: 3rem;
+  animation: balloonFloat 6s ease-in-out infinite;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+}
+
+@keyframes balloonFloat {
+  0%, 100% { 
+    transform: translateY(0) translateX(0) rotate(-5deg);
+  }
+  25% { 
+    transform: translateY(-30px) translateX(15px) rotate(5deg);
+  }
+  50% { 
+    transform: translateY(-50px) translateX(-10px) rotate(-3deg);
+  }
+  75% { 
+    transform: translateY(-30px) translateX(-15px) rotate(7deg);
+  }
+}
+
+.balloon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+.balloon:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
+.balloon:nth-child(3) { bottom: 15%; left: 12%; animation-delay: 2s; }
+.balloon:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 1.5s; }
+
+/* ENDING SCENE */
+.ending {
+  background: linear-gradient(135deg, #ff4b7d, #ff9a9e, #ffd1dc);
+  animation: gradientShift 5s ease infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.ending h1 {
+  font-size: clamp(2rem, 8vw, 4rem);
+  margin-bottom: 2rem;
+  animation: celebrationPop 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-shadow: 0 5px 30px rgba(0,0,0,0.3);
+}
+
+@keyframes celebrationPop {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+.ending p {
+  font-size: 1.5rem;
+  font-style: italic;
+  opacity: 0;
+  animation: fadeInUp 1s ease 0.5s forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* CONFETTI */
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: #ff4b7d;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  animation: confettiFall 3s linear forwards;
+}
+
+@keyframes confettiFall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* LIGHT RAYS */
+.light-ray {
+  position: fixed;
+  width: 2px;
+  height: 100vh;
+  background: linear-gradient(to bottom, 
+    transparent, 
+    rgba(255, 126, 179, 0.1), 
+    transparent);
+  pointer-events: none;
+  animation: rayShift 8s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes rayShift {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .gratitude-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .letter {
+    padding: 2rem 1.5rem;
+  }
+  
+  .track {
+    width: 250px;
+    height: 350px;
+  }
+  
+  .track img {
+    width: 250px;
+    height: 350px;
+  }
+}
+  </style>
+</head>
+<body>
+<audio id="bgMusic" loop>
+  <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-love-song-2068.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Custom Cursor -->
+<div class="cursor"></div>
+<div class="cursor-trail"></div>
+
+<!-- Light Rays -->
+<div class="light-ray" style="left: 10%;"></div>
+<div class="light-ray" style="left: 30%; animation-delay: 2s;"></div>
+<div class="light-ray" style="left: 50%; animation-delay: 4s;"></div>
+<div class="light-ray" style="left: 70%; animation-delay: 1s;"></div>
+<div class="light-ray" style="left: 90%; animation-delay: 3s;"></div>
+
+<canvas id="particles"></canvas>
+
+<div id="app">
+  <!-- SCENE 1: INTRO -->
+  <section class="page active">
+    <h1 class="title">Happy Valentine's Day</h1>
+    <h2 class="name">Shruti ❤️</h2>
+    <p class="tap">✨ Tap anywhere to begin our cinematic story ✨</p>
+  </section>
+
+  <!-- SCENE 2: CAROUSEL -->
+  <section class="page">
+    <div class="carousel">
+      <div class="track" id="track"></div>
+    </div>
+    <p class="tap">💫 Tap to journey through our memories 💫</p>
+  </section>
+
+  <!-- SCENE 3: LETTER -->
+  <section class="page balloons">
+    <div class="balloon">🎈</div>
+    <div class="balloon">💕</div>
+    <div class="balloon">🎈</div>
+    <div class="balloon">💝</div>
+    <div class="letter">
+      <h2>Dear Shruti,</h2>
+      <p id="letterText"></p>
+    </div>
+  </section>
+
+  <!-- SCENE 4: GRATITUDE -->
+  <section class="page gratitude-scene">
+    <div class="gratitude-container">
+      <h1 class="gratitude-title">Things I Love About Us</h1>
+      <div class="gratitude-grid" id="gratitudeGrid"></div>
+      <p class="tap">💕 Tap to continue 💕</p>
+    </div>
+  </section>
+
+  <!-- SCENE 5: ENDING -->
+  <section class="page ending">
+    <h1>Forever Grateful for You 💕</h1>
+    <p>Every day with you is my favorite day.</p>
+  </section>
+</div>
+
+<script>
+// ========== CUSTOM CURSOR ==========
+const cursor = document.querySelector('.cursor');
+const cursorTrail = document.querySelector('.cursor-trail');
+let mouseX = 0, mouseY = 0;
+let trailX = 0, trailY = 0;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  
+  cursor.style.left = mouseX + 'px';
+  cursor.style.top = mouseY + 'px';
+  
+  // Create sparkles on movement
+  if (Math.random() > 0.9) {
+    createSparkle(mouseX, mouseY);
+  }
+});
+
+// Smooth trailing cursor
+function updateTrail() {
+  trailX += (mouseX - trailX) * 0.15;
+  trailY += (mouseY - trailY) * 0.15;
+  
+  cursorTrail.style.left = trailX + 'px';
+  cursorTrail.style.top = trailY + 'px';
+  
+  requestAnimationFrame(updateTrail);
+}
+updateTrail();
+
+// Hover effect on interactive elements
+document.querySelectorAll('.page, img, .gratitude-card').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+});
+
+// ========== SPARKLES ==========
+function createSparkle(x, y) {
+  const sparkle = document.createElement('div');
+  sparkle.className = 'sparkle';
+  sparkle.style.left = x + 'px';
+  sparkle.style.top = y + 'px';
+  document.body.appendChild(sparkle);
+  
+  setTimeout(() => sparkle.remove(), 1500);
+}
+
+// ========== SCENE MANAGEMENT ==========
+const pages = document.querySelectorAll(".page");
+const music = document.getElementById("bgMusic");
+let scene = 0;
+
+function nextScene() {
+  pages[scene].classList.remove("active");
+  scene++;
+  if (scene < pages.length) {
+    pages[scene].classList.add("active");
+  }
+}
+
+// ========== INTRO SCENE ==========
+let hasStarted = false;
+document.body.addEventListener("click", () => {
+  if (scene === 0 && !hasStarted) {
+    hasStarted = true;
+    music.play().catch(() => {}); // Handle autoplay restrictions
+    nextScene();
+  }
+});
+
+// ========== 3D CAROUSEL SCENE ==========
+const track = document.getElementById("track");
+const totalImages = 9;
+let carouselIndex = 0;
+
+// Generate placeholder images (replace with your actual images)
+const images = [];
+for (let i = 1; i <= totalImages; i++) {
+  const img = document.createElement("img");
+  img.src = `https://picsum.photos/300/400?random=${i}`;
+  img.alt = `Memory ${i}`;
+  track.appendChild(img);
+  images.push(img);
+}
+
+function updateCarousel() {
+  const angle = 360 / totalImages;
+  const radius = 450; // Distance from center
+  
+  images.forEach((img, index) => {
+    const offset = index - carouselIndex;
+    const theta = offset * angle;
+    const rad = theta * Math.PI / 180;
+    
+    const x = Math.sin(rad) * radius;
+    const z = Math.cos(rad) * radius;
+    
+    img.style.transform = `
+      rotateY(${theta}deg)
+      translateZ(${radius}px)
+    `;
+    
+    // Active image styling
+    if (index === carouselIndex) {
+      img.classList.add('active');
+    } else {
+      img.classList.remove('active');
+    }
+    
+    // Z-index based on distance
+    img.style.zIndex = Math.round(100 + z);
+  });
+}
+
+updateCarousel();
+
+pages[1].addEventListener("click", () => {
+  if (carouselIndex < totalImages - 1) {
+    carouselIndex++;
+    updateCarousel();
+    
+    // Rotate the entire carousel
+    const angle = 360 / totalImages;
+    track.style.transform = `rotateY(${-carouselIndex * angle}deg)`;
+  } else {
+    // If we've seen all images, go to next scene
+    nextScene();
+    typeLetter();
+  }
+});
+
+// ========== LETTER TYPING EFFECT ==========
+const message = 
+  "Some people feel like a chapter. You feel like the entire story. " +
+  "Every moment with you, Shruti, feels cinematic in its own quiet way—" +
+  "like watching golden hour light filter through curtains, " +
+  "or hearing your favorite song unexpectedly. " +
+  "You are my comfort in chaos, my excitement in the ordinary, " +
+  "and my constant in a world that never stops changing. " +
+  "Thank you for being you, for being here, for being mine. " +
+  "Happy Valentine's Day, my love. ❤️";
+
+let letterIndex = 0;
+
+function typeLetter() {
+  const el = document.getElementById("letterText");
+  const interval = setInterval(() => {
+    el.textContent += message[letterIndex++];
+    
+    // Create sparkle effect while typing
+    if (letterIndex % 5 === 0) {
+      const rect = el.getBoundingClientRect();
+      createSparkle(
+        rect.left + Math.random() * rect.width,
+        rect.top + Math.random() * rect.height
+      );
+    }
+    
+    if (letterIndex >= message.length) {
+      clearInterval(interval);
+      setTimeout(() => nextScene(), 3000);
+    }
+  }, 50);
+}
+
+// ========== GRATITUDE SCENE ==========
+const gratitudeItems = [
+  {
+    icon: "😊",
+    title: "Your Smile",
+    text: "The way your whole face lights up when you laugh - it's my favorite view in the world."
+  },
+  {
+    icon: "🌟",
+    title: "Your Support",
+    text: "You believe in me even when I don't believe in myself. That means everything."
+  },
+  {
+    icon: "💭",
+    title: "Our Conversations",
+    text: "From deep talks to silly jokes, I cherish every moment we spend just talking."
+  },
+  {
+    icon: "🎵",
+    title: "Little Moments",
+    text: "Coffee in the morning, songs in the car, quiet evenings together - they're all perfect."
+  },
+  {
+    icon: "🌙",
+    title: "Your Presence",
+    text: "Just knowing you're there makes everything better. You're my peace and my home."
+  },
+  {
+    icon: "✨",
+    title: "Our Future",
+    text: "Every day I'm excited about what we'll build together, the memories we'll create."
+  }
+];
+
+function createGratitudeCards() {
+  const grid = document.getElementById('gratitudeGrid');
+  
+  gratitudeItems.forEach((item, index) => {
+    const card = document.createElement('div');
+    card.className = 'gratitude-card';
+    card.innerHTML = `
+      <span class="icon">${item.icon}</span>
+      <h3>${item.title}</h3>
+      <p>${item.text}</p>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// Create cards when page loads
+createGratitudeCards();
+
+// Handle gratitude scene click
+pages[3].addEventListener("click", () => {
+  createConfetti();
+  setTimeout(() => nextScene(), 1000);
+});
+
+// ========== CONFETTI ==========
+function createConfetti() {
+  const colors = ['#ff4b7d', '#ff9a9e', '#ffd1dc', '#fff', '#ffe5e5'];
+  
+  for (let i = 0; i < 100; i++) {
+    setTimeout(() => {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + 'vw';
+      confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDelay = Math.random() * 0.5 + 's';
+      confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+      document.body.appendChild(confetti);
+      
+      setTimeout(() => confetti.remove(), 3000);
+    }, i * 30);
+  }
+}
+
+// ========== HEART PARTICLES CANVAS ==========
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const hearts = Array.from({ length: 50 }, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  speed: Math.random() * 0.5 + 0.3,
+  size: Math.random() * 16 + 12,
+  opacity: Math.random() * 0.5 + 0.3,
+  sway: Math.random() * 2 - 1
+}));
+
+function animateHearts() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  hearts.forEach(h => {
+    ctx.globalAlpha = h.opacity;
+    ctx.font = `${h.size}px serif`;
+    
+    // Create gradient for hearts
+    const gradient = ctx.createRadialGradient(h.x, h.y, 0, h.x, h.y, h.size);
+    gradient.addColorStop(0, '#ff7eb3');
+    gradient.addColorStop(1, '#ff4b7d');
+    ctx.fillStyle = gradient;
+    
+    ctx.fillText("💖", h.x, h.y);
+    
+    h.y += h.speed;
+    h.x += Math.sin(h.y / 50) * h.sway;
+    
+    if (h.y > canvas.height + 20) {
+      h.y = -20;
+      h.x = Math.random() * canvas.width;
+    }
+  });
+  
+  requestAnimationFrame(animateHearts);
+}
+animateHearts();
+
+// ========== TOUCH SUPPORT ==========
+document.addEventListener('touchstart', (e) => {
+  const touch = e.touches[0];
+  createSparkle(touch.clientX, touch.clientY);
+});
+
+// ========== KEYBOARD NAVIGATION (for testing) ==========
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' && scene < pages.length - 1) {
+    if (scene === 1 && carouselIndex < totalImages - 1) {
+      carouselIndex++;
+      updateCarousel();
+    } else {
+      nextScene();
+      if (scene === 2) typeLetter();
+    }
+  }
+});
+</script>
+</body>
+</html>
